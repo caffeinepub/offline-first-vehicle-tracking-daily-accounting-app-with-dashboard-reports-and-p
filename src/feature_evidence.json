@@ -1,0 +1,260 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-an-offline-first-local-data-layer-that-persists-all-app-data-on-the-client-device-browser-and-works-without-network-access-including-schema-versioning-and-safe-read-write-helpers-for-water-tank-entries-jcb-hydro-work-logs-and-accounting-transactions",
+      "featureTitle": "Create an offline-first local data layer that persists all app data on the client device (browser) and works without network access, including schema/versioning and safe read/write helpers for: Water Tank entries, JCB/HYDRO work logs, and Accounting transactions.",
+      "files": [
+        "frontend/src/localDb/client.ts",
+        "frontend/src/localDb/index.ts",
+        "frontend/src/localDb/migrations.ts",
+        "frontend/src/localDb/repositories/accountingRepo.ts",
+        "frontend/src/localDb/repositories/vehicleWorkRepo.ts",
+        "frontend/src/localDb/repositories/waterTankRepo.ts",
+        "frontend/src/localDb/schema.ts",
+        "frontend/src/localDb/types.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-water-tank-entry-crud-create-list-by-selected-date-edit-and-delete-entries-with-fields-date-time-category-salt-water-drinking-water-party-name-driver-name-and-notes",
+      "featureTitle": "Implement Water Tank entry CRUD: create, list by selected date, edit, and delete entries with fields: date, time, category (Salt Water | Drinking Water), party name, driver name, and notes.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/waterTank/WaterTankForm.tsx",
+        "frontend/src/features/waterTank/WaterTankList.tsx",
+        "frontend/src/features/waterTank/validation.ts",
+        "frontend/src/pages/WaterTankPage.tsx",
+        "frontend/src/router.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-jcb-and-hydro-work-log-crud-create-list-by-selected-date-edit-and-delete-logs-with-fields-date-vehicle-type-jcb-hydro-driver-name-start-time-end-time-hourly-rate-automatically-compute-total-working-hours-and-total-payment-per-log",
+      "featureTitle": "Implement JCB and HYDRO work log CRUD: create, list by selected date, edit, and delete logs with fields: date, vehicle type (JCB | HYDRO), driver name, start time, end time, hourly rate; automatically compute total working hours and total payment per log.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/vehicleWork/VehicleWorkForm.tsx",
+        "frontend/src/features/vehicleWork/VehicleWorkList.tsx",
+        "frontend/src/features/vehicleWork/calculations.ts",
+        "frontend/src/features/vehicleWork/validation.ts",
+        "frontend/src/pages/VehicleWorkPage.tsx",
+        "frontend/src/router.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-daily-accounting-module-crud-to-record-cashflow-transactions-with-type-paid-expense-received-income-amount-person-name-date-and-notes-automatically-compute-totals-for-a-selected-date-total-expenses-total-income-and-balance-in-hand-income-expenses",
+      "featureTitle": "Implement Daily Accounting module CRUD to record cashflow transactions with: type (Paid/Expense | Received/Income), amount, person name, date, and notes; automatically compute totals for a selected date: total expenses, total income, and balance in hand (income - expenses).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/accounting/AccountingForm.tsx",
+        "frontend/src/features/accounting/AccountingList.tsx",
+        "frontend/src/features/accounting/calculations.ts",
+        "frontend/src/features/accounting/validation.ts",
+        "frontend/src/pages/AccountingPage.tsx",
+        "frontend/src/router.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-dashboard-screen-that-summarizes-today-with-animated-cards-showing-today-s-income-today-s-expenses-today-s-balance-in-hand-total-vehicle-hours-for-today-jcb-hydro-and-count-of-today-s-water-tank-entries-cards-should-link-to-the-relevant-date-filtered-views",
+      "featureTitle": "Create a dashboard screen that summarizes “today” with animated cards showing: today’s income, today’s expenses, today’s balance in hand, total vehicle hours for today (JCB+HYDRO), and count of today’s Water Tank entries; cards should link to the relevant date-filtered views.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/dashboard/KpiCard.tsx",
+        "frontend/src/features/dashboard/kpis.ts",
+        "frontend/src/pages/DashboardPage.tsx",
+        "frontend/src/router.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-date-wise-reports-views-for-each-module-water-tank-vehicle-work-logs-accounting-with-a-shared-date-selector-allowing-users-to-quickly-switch-days-and-see-the-filtered-records-plus-computed-totals-where-applicable",
+      "featureTitle": "Add date-wise reports views for each module (Water Tank, Vehicle Work Logs, Accounting) with a shared date selector, allowing users to quickly switch days and see the filtered records plus computed totals where applicable.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/DateSelector.tsx",
+        "frontend/src/features/reports/AccountingReport.tsx",
+        "frontend/src/features/reports/VehicleWorkReport.tsx",
+        "frontend/src/features/reports/WaterTankReport.tsx",
+        "frontend/src/pages/ReportsPage.tsx",
+        "frontend/src/router.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-export-for-date-wise-reports-to-pdf-and-excel-user-can-export-the-currently-selected-date-s-water-tank-entries-vehicle-logs-jcb-hydro-and-accounting-transactions-including-totals-in-the-exported-output",
+      "featureTitle": "Implement export for date-wise reports to PDF and Excel: user can export the currently selected date’s Water Tank entries, Vehicle logs (JCB/HYDRO), and Accounting transactions, including totals in the exported output.",
+      "files": [
+        "frontend/src/features/reports/AccountingReport.tsx",
+        "frontend/src/features/reports/ExportActions.tsx",
+        "frontend/src/features/reports/VehicleWorkReport.tsx",
+        "frontend/src/features/reports/WaterTankReport.tsx",
+        "frontend/src/lib/export/excel.ts",
+        "frontend/src/lib/export/exportTypes.ts",
+        "frontend/src/lib/export/pdf.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-modern-clean-animated-material-inspired-ui-with-a-coherent-visual-theme-colors-typography-spacing-component-styling-applied-consistently-across-dashboard-forms-lists-and-report-views-do-not-use-a-blue-purple-primary-palette",
+      "featureTitle": "Build a modern, clean, animated Material-inspired UI with a coherent visual theme (colors, typography, spacing, component styling) applied consistently across dashboard, forms, lists, and report views; do not use a blue/purple primary palette.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-light-dark-mode-support-with-a-user-facing-toggle-and-persistence-of-the-selected-mode-locally",
+      "featureTitle": "Add light/dark mode support with a user-facing toggle and persistence of the selected mode locally.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/components/ThemeToggle.tsx",
+        "frontend/src/index.css",
+        "frontend/src/theme/ThemeProvider.tsx",
+        "frontend/src/theme/theme.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-robust-form-validation-and-ux-safeguards-required-fields-numeric-validation-for-amount-hourly-rate-time-validation-end-after-start-and-confirm-prompts-for-destructive-deletes",
+      "featureTitle": "Add robust form validation and UX safeguards: required fields, numeric validation for amount/hourly rate, time validation (end after start), and confirm prompts for destructive deletes.",
+      "files": [
+        "frontend/src/components/ConfirmDeleteDialog.tsx",
+        "frontend/src/features/accounting/AccountingForm.tsx",
+        "frontend/src/features/accounting/AccountingList.tsx",
+        "frontend/src/features/vehicleWork/VehicleWorkForm.tsx",
+        "frontend/src/features/vehicleWork/VehicleWorkList.tsx",
+        "frontend/src/features/waterTank/WaterTankList.tsx",
+        "frontend/src/lib/format.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-simple-in-app-navigation-to-the-main-areas-dashboard-water-tank-vehicle-jcb-hydro-accounting-and-reports-exports-optimized-for-mobile-layouts",
+      "featureTitle": "Provide simple in-app navigation to the main areas: Dashboard, Water Tank, Vehicle (JCB/HYDRO), Accounting, and Reports/Exports, optimized for mobile layouts.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/components/MobileNav.tsx",
+        "frontend/src/router.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

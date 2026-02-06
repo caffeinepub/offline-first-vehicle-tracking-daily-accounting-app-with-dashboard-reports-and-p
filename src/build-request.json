@@ -1,0 +1,233 @@
+{
+  "kind": "build_request",
+  "title": "Offline-first vehicle tracking + daily accounting app with dashboard, reports, and PDF/Excel export",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create an offline-first local data layer that persists all app data on the client device (browser) and works without network access, including schema/versioning and safe read/write helpers for: Water Tank entries, JCB/HYDRO work logs, and Accounting transactions.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "All data must be stored locally, editable anytime, support date-wise reports, and allow export to PDF or Excel"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App functions (create/edit/delete/view) when the device is offline after the first load.",
+        "All records persist across page reloads and browser restarts.",
+        "Data layer supports future schema changes via a stored schema version and migration step(s) without data loss."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement Water Tank entry CRUD: create, list by selected date, edit, and delete entries with fields: date, time, category (Salt Water | Drinking Water), party name, driver name, and notes.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "The app should allow entry of water tank vehicles with date, time, category (salt water or drinking water), party name, driver name, and notes, with full edit and delete options by date."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can add a Water Tank entry with all specified fields.",
+        "User can filter/view Water Tank entries for a specific date and see only that date’s entries.",
+        "User can edit any Water Tank entry and changes are saved locally.",
+        "User can delete any Water Tank entry and it is removed from local storage."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement JCB and HYDRO work log CRUD: create, list by selected date, edit, and delete logs with fields: date, vehicle type (JCB | HYDRO), driver name, start time, end time, hourly rate; automatically compute total working hours and total payment per log.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "It should also track JCB and HYDRO vehicles by date, driver name, start time, end time, hourly rate, and automatically calculate total working hours and payment."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can add a work log for JCB or HYDRO with all specified fields.",
+        "Total working hours are automatically calculated from start time and end time (with validation for invalid ranges).",
+        "Total payment is automatically calculated as (hours * hourly rate) and updates when inputs change.",
+        "User can edit/delete logs and the date-wise list updates accordingly."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement Daily Accounting module CRUD to record cashflow transactions with: type (Paid/Expense | Received/Income), amount, person name, date, and notes; automatically compute totals for a selected date: total expenses, total income, and balance in hand (income - expenses).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Include a daily accounting module to record amounts paid and received with person name, date, and notes, automatically calculating total expenses, total income, and balance in hand."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can add accounting records for Paid and Received with amount, person name, date, and notes.",
+        "For any selected date, the UI shows total expenses, total income, and balance in hand computed from locally stored records.",
+        "User can edit/delete accounting records and totals recompute immediately."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Create a dashboard screen that summarizes “today” with animated cards showing: today’s income, today’s expenses, today’s balance in hand, total vehicle hours for today (JCB+HYDRO), and count of today’s Water Tank entries; cards should link to the relevant date-filtered views.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Show everything in a dashboard with animated cards for today’s income, expenses, balance, vehicle hours, and water tank entries."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard displays the 5 requested KPIs for the current date using locally stored data.",
+        "Cards animate on load/interaction (e.g., subtle motion/hover/transition) without harming usability.",
+        "Clicking a card navigates to the corresponding module with the date pre-selected to today."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add date-wise reports views for each module (Water Tank, Vehicle Work Logs, Accounting) with a shared date selector, allowing users to quickly switch days and see the filtered records plus computed totals where applicable.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "support date-wise reports"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each module includes a date selector that filters records to the selected date.",
+        "Vehicle report view shows aggregated hours and payment totals for the selected date.",
+        "Accounting report view shows totals (income/expenses/balance) for the selected date."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Implement export for date-wise reports to PDF and Excel: user can export the currently selected date’s Water Tank entries, Vehicle logs (JCB/HYDRO), and Accounting transactions, including totals in the exported output.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "allow export to PDF or Excel"
+        ]
+      },
+      "acceptanceCriteria": [
+        "From each report view, user can export to PDF and download a file.",
+        "From each report view, user can export to Excel (.xlsx) and download a file.",
+        "Exports include a clear header with module name and report date, tabular rows, and totals where applicable."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Build a modern, clean, animated Material-inspired UI with a coherent visual theme (colors, typography, spacing, component styling) applied consistently across dashboard, forms, lists, and report views; do not use a blue/purple primary palette.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build a modern offline Android app ... with a clean, animated Material Design interface.",
+          "with a smooth, professional UI"
+        ]
+      },
+      "acceptanceCriteria": [
+        "UI uses a single consistent theme across the app (buttons, inputs, cards, typography).",
+        "Micro-interactions/animations are present but subtle (no distracting motion) and consistent.",
+        "Primary palette is not blue/purple."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Add light/dark mode support with a user-facing toggle and persistence of the selected mode locally.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "light/dark mode"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can toggle between light and dark themes.",
+        "The selected theme persists across reloads via local storage.",
+        "Both themes maintain readable contrast and consistent component styling."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Add robust form validation and UX safeguards: required fields, numeric validation for amount/hourly rate, time validation (end after start), and confirm prompts for destructive deletes.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "editable anytime"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Forms prevent saving invalid records and show clear English validation messages.",
+        "Deleting any record requires a confirmation step.",
+        "Calculated fields (hours/payment/totals) never show NaN/undefined and degrade gracefully when inputs are incomplete."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Provide simple in-app navigation to the main areas: Dashboard, Water Tank, Vehicle (JCB/HYDRO), Accounting, and Reports/Exports, optimized for mobile layouts.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Show everything in a dashboard ...",
+          "support date-wise reports, and allow export to PDF or Excel"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can reach all major modules from a consistent navigation element (e.g., bottom nav or side menu).",
+        "Navigation works on small screens without overlapping content.",
+        "Current section is visually indicated."
+      ]
+    }
+  ],
+  "constraints": [
+    "Use English for all user-facing text.",
+    "Do not modify files under frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose these components instead).",
+    "Keep backend as a single Motoko actor if backend changes are introduced; do not introduce additional backend services."
+  ],
+  "nonGoals": [
+    "Implementing native Android (Kotlin/Java) packaging; deliver as a responsive web app with offline-first local storage behavior.",
+    "Third-party authentication providers; only Internet Identity is permitted if authentication is added later.",
+    "Real-time syncing, multi-user collaboration, or server-hosted database storage as the primary storage (local storage is the source of truth)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

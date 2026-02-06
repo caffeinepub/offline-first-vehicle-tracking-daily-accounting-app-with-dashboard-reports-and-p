@@ -1,0 +1,190 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-06T19:05:39.992Z",
+  "summary": "The diff adds foundational UI/layout pieces (App layout, mobile nav, theme toggle), some accounting and vehicle-work form/list/report components, KPI helpers, and report export wiring. However, several BuildRequest requirements are either not shown as implemented (likely omitted/truncated) or are partially implemented with gaps (notably: offline-first data layer versioning/migrations, full CRUD screens, dashboard screen wiring, shared reports/date selector, true Excel .xlsx export, and vehicle time-range validation). The diff also adds an empty backend actor that was not requested.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Offline-first local data layer with schema/versioning + migration steps and safe read/write helpers for Water Tank entries, Vehicle work logs, and Accounting transactions.",
+      "reason": "App.tsx calls initializeDb() and components import from '@/localDb', but the diff does not show the local data layer implementation, nor any explicit schema version storage/migrations or safe read/write helpers. Omitted/truncated files may contain it, so this is based on absence from the shown diff summary.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/reports/AccountingReport.tsx",
+        "frontend/src/features/reports/VehicleWorkReport.tsx",
+        "frontend/src/features/reports/WaterTankReport.tsx"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Water Tank entry CRUD UI (create/list by selected date/edit/delete) with fields: date, time, category, party name, driver name, notes.",
+      "reason": "Only a WaterTankReport (report/table + export) is shown; no Water Tank create/edit form, date-filtered CRUD list, or delete confirmation integration is shown in the diff summary.",
+      "evidence": [
+        "frontend/src/features/reports/WaterTankReport.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Vehicle (JCB/HYDRO) work log CRUD including list-by-date, edit, delete, with computed hours/payment and validation for invalid time ranges (end after start).",
+      "reason": "A VehicleWorkForm with calculations and basic required-field validation is shown, plus a date-wise report. But the diff summary does not show a CRUD list screen with edit/delete, nor validation that end time must be after start time (the calculation allows overnight by design and validation.ts does not check ordering).",
+      "evidence": [
+        "frontend/src/features/vehicleWork/VehicleWorkForm.tsx",
+        "frontend/src/features/vehicleWork/validation.ts",
+        "frontend/src/features/reports/VehicleWorkReport.tsx",
+        "frontend/src/features/vehicleWork/calculations.ts"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Daily Accounting module CRUD UI including add/edit/delete and date-wise totals (income/expenses/balance) for selected date.",
+      "reason": "AccountingForm + AccountingList (with totals and delete confirmation) exist, but the diff summary does not show the actual Accounting page/screen that wires date selection, loads/saves to local storage, and supports list-by-selected-date with CRUD end-to-end.",
+      "evidence": [
+        "frontend/src/features/accounting/AccountingForm.tsx",
+        "frontend/src/features/accounting/AccountingList.tsx",
+        "frontend/src/components/DateSelector.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Dashboard screen that summarizes today with 5 animated KPI cards linking to relevant date-filtered views (today’s income, expenses, balance, total vehicle hours, Water Tank count).",
+      "reason": "KPI card component and KPI calculation helper exist, but the diff summary does not show a Dashboard screen/page that loads today’s data, renders all 5 KPIs, and navigates with today pre-selected.",
+      "evidence": [
+        "frontend/src/features/dashboard/KpiCard.tsx",
+        "frontend/src/features/dashboard/kpis.ts",
+        "frontend/src/components/MobileNav.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Date-wise reports views for each module with a shared date selector to switch days; vehicle report shows aggregated hours/payment; accounting shows totals.",
+      "reason": "Individual report components exist and accept selectedDate, and a shared DateSelector component exists, but the diff summary does not show a Reports page that provides the shared date selector and switches among Water/Vehicle/Accounting reports consistently.",
+      "evidence": [
+        "frontend/src/components/DateSelector.tsx",
+        "frontend/src/features/reports/AccountingReport.tsx",
+        "frontend/src/features/reports/VehicleWorkReport.tsx",
+        "frontend/src/features/reports/WaterTankReport.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Export date-wise reports to PDF and Excel (.xlsx) downloads, including totals where applicable.",
+      "reason": "Export actions and report components call exportToPDF/exportToExcel, but ExportActions labels the Excel export as \"Export to CSV\" (not .xlsx). Also, the actual .xlsx generation is not evidenced in the diff summary (export lib files are not shown), so .xlsx compliance cannot be verified.",
+      "evidence": [
+        "frontend/src/features/reports/ExportActions.tsx",
+        "frontend/src/features/reports/AccountingReport.tsx",
+        "frontend/src/features/reports/VehicleWorkReport.tsx",
+        "frontend/src/features/reports/WaterTankReport.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Material-inspired coherent theme (not blue/purple primary palette) applied consistently, with subtle animations.",
+      "reason": "Some components use transitions/hover effects, but the diff summary does not show theme configuration (colors/typography) or evidence that the primary palette is not blue/purple.",
+      "evidence": [
+        "frontend/src/features/dashboard/KpiCard.tsx",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/components/ThemeToggle.tsx",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Light/dark mode toggle with persistence in local storage.",
+      "reason": "ThemeToggle and ThemeProvider usage are shown, but the diff summary does not show ThemeProvider implementation or explicit persistence to local storage, so persistence cannot be confirmed.",
+      "evidence": [
+        "frontend/src/components/ThemeToggle.tsx",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Robust form validation including required fields, numeric validation, time validation (end after start), delete confirmation prompts; calculated fields never show NaN/undefined.",
+      "reason": "Delete confirmation dialog exists; accounting validation covers required/numeric; vehicle validation covers required/numeric but does not validate time ordering (end after start).",
+      "evidence": [
+        "frontend/src/components/ConfirmDeleteDialog.tsx",
+        "frontend/src/features/accounting/validation.ts",
+        "frontend/src/features/vehicleWork/validation.ts",
+        "frontend/src/features/vehicleWork/calculations.ts"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "In-app navigation to Dashboard, Water Tank, Vehicle, Accounting, Reports/Exports optimized for mobile with current section indicated.",
+      "reason": "Mobile bottom nav exists and indicates active route, but the diff summary does not show router definitions for all paths or the actual screens/pages for each module; navigation completeness cannot be confirmed.",
+      "evidence": [
+        "frontend/src/components/MobileNav.tsx",
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added an empty Motoko backend actor file.",
+      "reason": "The BuildRequest focuses on an offline-first client app and does not request backend functionality; adding backend/main.mo (actor {}) is not required for listed REQs.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.66,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppLayout.tsx",
+    "frontend/src/components/ConfirmDeleteDialog.tsx",
+    "frontend/src/components/DateSelector.tsx",
+    "frontend/src/components/MobileNav.tsx",
+    "frontend/src/components/ThemeToggle.tsx",
+    "frontend/src/features/accounting/AccountingForm.tsx",
+    "frontend/src/features/accounting/AccountingList.tsx",
+    "frontend/src/features/accounting/calculations.ts",
+    "frontend/src/features/accounting/validation.ts",
+    "frontend/src/features/dashboard/KpiCard.tsx",
+    "frontend/src/features/dashboard/kpis.ts",
+    "frontend/src/features/reports/AccountingReport.tsx",
+    "frontend/src/features/reports/ExportActions.tsx",
+    "frontend/src/features/reports/VehicleWorkReport.tsx",
+    "frontend/src/features/reports/WaterTankReport.tsx",
+    "frontend/src/features/vehicleWork/VehicleWorkForm.tsx",
+    "frontend/src/features/vehicleWork/VehicleWorkList.tsx",
+    "frontend/src/features/vehicleWork/calculations.ts",
+    "frontend/src/features/vehicleWork/validation.ts",
+    "frontend/src/features/waterTank/WaterTankForm.tsx",
+    "frontend/src/features/waterTank/WaterTankList.tsx",
+    "frontend/src/features/waterTank/validation.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/export/excel.ts",
+    "frontend/src/lib/export/exportTypes.ts",
+    "frontend/src/lib/export/pdf.ts",
+    "frontend/src/lib/format.ts",
+    "frontend/src/lib/utils.ts",
+    "frontend/src/localDb/client.ts",
+    "frontend/src/localDb/index.ts",
+    "frontend/src/localDb/migrations.ts",
+    "frontend/src/localDb/repositories/accountingRepo.ts",
+    "frontend/src/localDb/repositories/vehicleWorkRepo.ts",
+    "frontend/src/localDb/repositories/waterTankRepo.ts",
+    "frontend/src/localDb/schema.ts",
+    "frontend/src/localDb/types.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AccountingPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/ReportsPage.tsx",
+    "frontend/src/pages/VehicleWorkPage.tsx",
+    "frontend/src/pages/WaterTankPage.tsx",
+    "frontend/src/router.tsx",
+    "frontend/src/theme/ThemeProvider.tsx",
+    "frontend/src/theme/theme.ts",
+    "frontend/src/types/jspdf-autotable.d.ts",
+    "frontend/src/types/jspdf.d.ts",
+    "frontend/src/types/xlsx.d.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

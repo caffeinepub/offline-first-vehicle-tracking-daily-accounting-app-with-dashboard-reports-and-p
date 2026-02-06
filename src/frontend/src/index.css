@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.5rem;
+        
+        /* Warm orange/amber palette for vehicle tracking */
+        --background: 0.98 0 0;
+        --foreground: 0.15 0 0;
+        --card: 1 0 0;
+        --card-foreground: 0.15 0 0;
+        --popover: 1 0 0;
+        --popover-foreground: 0.15 0 0;
+        
+        /* Primary: Warm orange */
+        --primary: 0.65 0.18 45;
+        --primary-foreground: 0.98 0 0;
+        
+        /* Secondary: Soft amber */
+        --secondary: 0.95 0.05 60;
+        --secondary-foreground: 0.25 0 0;
+        
+        --muted: 0.96 0.01 60;
+        --muted-foreground: 0.50 0.02 60;
+        
+        --accent: 0.92 0.08 50;
+        --accent-foreground: 0.20 0 0;
+        
+        /* Destructive: Red */
+        --destructive: 0.58 0.24 25;
+        --destructive-foreground: 0.98 0 0;
+        
+        --border: 0.90 0.02 60;
+        --input: 0.90 0.02 60;
+        --ring: 0.65 0.18 45;
+        
+        --chart-1: 0.65 0.18 45;
+        --chart-2: 0.55 0.20 180;
+        --chart-3: 0.60 0.18 280;
+        --chart-4: 0.70 0.15 120;
+        --chart-5: 0.50 0.22 340;
+    }
+
+    .dark {
+        --background: 0.12 0 0;
+        --foreground: 0.95 0 0;
+        --card: 0.16 0 0;
+        --card-foreground: 0.95 0 0;
+        --popover: 0.18 0 0;
+        --popover-foreground: 0.95 0 0;
+        
+        /* Primary: Bright orange for dark mode */
+        --primary: 0.70 0.20 45;
+        --primary-foreground: 0.12 0 0;
+        
+        --secondary: 0.22 0.03 50;
+        --secondary-foreground: 0.95 0 0;
+        
+        --muted: 0.22 0.02 50;
+        --muted-foreground: 0.65 0.03 50;
+        
+        --accent: 0.28 0.05 45;
+        --accent-foreground: 0.95 0 0;
+        
+        --destructive: 0.62 0.22 25;
+        --destructive-foreground: 0.95 0 0;
+        
+        --border: 0.25 0.02 50;
+        --input: 0.25 0.02 50;
+        --ring: 0.70 0.20 45;
+        
+        --chart-1: 0.70 0.20 45;
+        --chart-2: 0.60 0.22 200;
+        --chart-3: 0.65 0.20 280;
+        --chart-4: 0.75 0.18 120;
+        --chart-5: 0.55 0.24 340;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-bold;
+    }
+}
+
+@layer utilities {
+    .animate-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}

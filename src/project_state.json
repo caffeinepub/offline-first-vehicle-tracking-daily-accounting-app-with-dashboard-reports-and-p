@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Offline Android app for daily vehicle tracking (water tank, JCB, HYDRO) and accounting with Material Design UI, dashboard, date-wise reports, and PDF/Excel export.",
+  "architectural_notes": [
+    "Offline-first: all data stored locally on-device (no network dependency).",
+    "Material Design UI with animations; support light/dark theme.",
+    "Compute derived fields (total working hours, payments, daily totals, balance) automatically and consistently across UI and reports.",
+    "Provide export generation for PDF and Excel from local data."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-an-offline-first-local-data-layer-that-persists-all-app-data-on-the-client-device-browser-and-works-without-network-access-including-schema-versioning-and-safe-read-write-helpers-for-water-tank-entries-jcb-hydro-work-logs-and-accounting-transactions",
+      "title": "Create an offline-first local data layer that persists all app data on the client device (browser) and works without network access, including schema/versioning and safe read/write helpers for: Water Tank entries, JCB/HYDRO work logs, and Accounting transactions.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-water-tank-entry-crud-create-list-by-selected-date-edit-and-delete-entries-with-fields-date-time-category-salt-water-drinking-water-party-name-driver-name-and-notes",
+      "title": "Implement Water Tank entry CRUD: create, list by selected date, edit, and delete entries with fields: date, time, category (Salt Water | Drinking Water), party name, driver name, and notes.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-jcb-and-hydro-work-log-crud-create-list-by-selected-date-edit-and-delete-logs-with-fields-date-vehicle-type-jcb-hydro-driver-name-start-time-end-time-hourly-rate-automatically-compute-total-working-hours-and-total-payment-per-log",
+      "title": "Implement JCB and HYDRO work log CRUD: create, list by selected date, edit, and delete logs with fields: date, vehicle type (JCB | HYDRO), driver name, start time, end time, hourly rate; automatically compute total working hours and total payment per log.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-daily-accounting-module-crud-to-record-cashflow-transactions-with-type-paid-expense-received-income-amount-person-name-date-and-notes-automatically-compute-totals-for-a-selected-date-total-expenses-total-income-and-balance-in-hand-income-expenses",
+      "title": "Implement Daily Accounting module CRUD to record cashflow transactions with: type (Paid/Expense | Received/Income), amount, person name, date, and notes; automatically compute totals for a selected date: total expenses, total income, and balance in hand (income - expenses).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dashboard-screen-that-summarizes-today-with-animated-cards-showing-today-s-income-today-s-expenses-today-s-balance-in-hand-total-vehicle-hours-for-today-jcb-hydro-and-count-of-today-s-water-tank-entries-cards-should-link-to-the-relevant-date-filtered-views",
+      "title": "Create a dashboard screen that summarizes “today” with animated cards showing: today’s income, today’s expenses, today’s balance in hand, total vehicle hours for today (JCB+HYDRO), and count of today’s Water Tank entries; cards should link to the relevant date-filtered views.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-date-wise-reports-views-for-each-module-water-tank-vehicle-work-logs-accounting-with-a-shared-date-selector-allowing-users-to-quickly-switch-days-and-see-the-filtered-records-plus-computed-totals-where-applicable",
+      "title": "Add date-wise reports views for each module (Water Tank, Vehicle Work Logs, Accounting) with a shared date selector, allowing users to quickly switch days and see the filtered records plus computed totals where applicable.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-export-for-date-wise-reports-to-pdf-and-excel-user-can-export-the-currently-selected-date-s-water-tank-entries-vehicle-logs-jcb-hydro-and-accounting-transactions-including-totals-in-the-exported-output",
+      "title": "Implement export for date-wise reports to PDF and Excel: user can export the currently selected date’s Water Tank entries, Vehicle logs (JCB/HYDRO), and Accounting transactions, including totals in the exported output.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-modern-clean-animated-material-inspired-ui-with-a-coherent-visual-theme-colors-typography-spacing-component-styling-applied-consistently-across-dashboard-forms-lists-and-report-views-do-not-use-a-blue-purple-primary-palette",
+      "title": "Build a modern, clean, animated Material-inspired UI with a coherent visual theme (colors, typography, spacing, component styling) applied consistently across dashboard, forms, lists, and report views; do not use a blue/purple primary palette.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-light-dark-mode-support-with-a-user-facing-toggle-and-persistence-of-the-selected-mode-locally",
+      "title": "Add light/dark mode support with a user-facing toggle and persistence of the selected mode locally.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-robust-form-validation-and-ux-safeguards-required-fields-numeric-validation-for-amount-hourly-rate-time-validation-end-after-start-and-confirm-prompts-for-destructive-deletes",
+      "title": "Add robust form validation and UX safeguards: required fields, numeric validation for amount/hourly rate, time validation (end after start), and confirm prompts for destructive deletes.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-simple-in-app-navigation-to-the-main-areas-dashboard-water-tank-vehicle-jcb-hydro-accounting-and-reports-exports-optimized-for-mobile-layouts",
+      "title": "Provide simple in-app navigation to the main areas: Dashboard, Water Tank, Vehicle (JCB/HYDRO), Accounting, and Reports/Exports, optimized for mobile layouts.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Water tank vehicle entry module (date/time, category salt/drinking, party, driver, notes) with date-wise list plus full edit/delete",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "JCB and HYDRO tracking module (date, driver, start/end time, hourly rate) with automatic total hours and payment calculation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Daily accounting module for amounts paid/received (person, date, notes) with automatic totals (expenses, income, balance in hand)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Dashboard with animated cards showing today’s income, expenses, balance, vehicle hours, and water tank entries",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Local offline data storage with ability to edit anytime",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Date-wise reports for all modules",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Export reports/data to PDF or Excel",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Modern animated Material Design UI with smooth professional UX and light/dark mode",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Offline-first vehicle tracking + daily accounting app with dashboard, reports, and PDF/Excel export",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

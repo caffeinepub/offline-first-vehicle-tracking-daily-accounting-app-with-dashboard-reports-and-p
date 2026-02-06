@@ -1,0 +1,480 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Offline-first vehicle tracking and daily accounting web app (dashboard, reports, PDF/Excel export)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create an offline-first local data layer with versioned schema, migrations, and safe CRUD helpers for Water Tank, Vehicle Work Logs, and Accounting records.",
+      "acceptanceCriteria": [
+        "App functions (create/edit/delete/view) when the device is offline after the first load.",
+        "All records persist across page reloads and browser restarts.",
+        "Data layer supports future schema changes via a stored schema version and migration step(s) without data loss."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/localDb/types.ts",
+          "operation": "create",
+          "description": "Define local-only TypeScript types for Water Tank entries, Vehicle work logs (JCB/HYDRO), and Accounting transactions, including IDs and normalized date keys for date-wise queries."
+        },
+        {
+          "path": "frontend/src/localDb/schema.ts",
+          "operation": "create",
+          "description": "Define local DB schema metadata (object store names, indexes strategy, current schema version) used by the offline storage layer."
+        },
+        {
+          "path": "frontend/src/localDb/migrations.ts",
+          "operation": "create",
+          "description": "Implement schema version migration steps and a migration runner that upgrades stored data safely without loss."
+        },
+        {
+          "path": "frontend/src/localDb/client.ts",
+          "operation": "create",
+          "description": "Implement an IndexedDB-based storage client with safe read/write helpers (transaction wrappers, error handling) and schema version persistence."
+        },
+        {
+          "path": "frontend/src/localDb/repositories/waterTankRepo.ts",
+          "operation": "create",
+          "description": "Add local CRUD helpers for Water Tank entries (create/update/delete/listByDate) built on the offline storage client."
+        },
+        {
+          "path": "frontend/src/localDb/repositories/vehicleWorkRepo.ts",
+          "operation": "create",
+          "description": "Add local CRUD helpers for Vehicle Work Logs (create/update/delete/listByDate) built on the offline storage client."
+        },
+        {
+          "path": "frontend/src/localDb/repositories/accountingRepo.ts",
+          "operation": "create",
+          "description": "Add local CRUD helpers for Accounting transactions (create/update/delete/listByDate) built on the offline storage client."
+        },
+        {
+          "path": "frontend/src/localDb/index.ts",
+          "operation": "create",
+          "description": "Export a stable API surface for the app to use the local data layer (initialization + repositories)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement Water Tank entry CRUD with date-wise listing and local persistence.",
+      "acceptanceCriteria": [
+        "User can add a Water Tank entry with all specified fields.",
+        "User can filter/view Water Tank entries for a specific date and see only that date’s entries.",
+        "User can edit any Water Tank entry and changes are saved locally.",
+        "User can delete any Water Tank entry and it is removed from local storage."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/waterTank/validation.ts",
+          "operation": "create",
+          "description": "Add Water Tank form validation rules for required fields and safe defaults (English messages)."
+        },
+        {
+          "path": "frontend/src/features/waterTank/WaterTankForm.tsx",
+          "operation": "create",
+          "description": "Create a Water Tank create/edit form component. Use shadcn-ui form primitives (inputs/select/textarea/button) for consistent Material-inspired UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/waterTank/WaterTankList.tsx",
+          "operation": "create",
+          "description": "Create a date-filtered Water Tank list with edit/delete actions. Use shadcn-ui Card/Table and Dialog/AlertDialog for a clean UI and delete confirmation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/WaterTankPage.tsx",
+          "operation": "create",
+          "description": "Create the Water Tank module page with a shared date selector, list, and add/edit flow wired to the local repositories. Use shadcn-ui components for layout and actions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/router.tsx",
+          "operation": "create",
+          "description": "Create the app router and register the Water Tank route so it is navigable (no orphan page)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Wire the Water Tank route into the application shell layout and navigation, ensuring it can be reached from the main nav."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement JCB/HYDRO work log CRUD with automatic hours/payment calculations and date-wise listing.",
+      "acceptanceCriteria": [
+        "User can add a work log for JCB or HYDRO with all specified fields.",
+        "Total working hours are automatically calculated from start time and end time (with validation for invalid ranges).",
+        "Total payment is automatically calculated as (hours * hourly rate) and updates when inputs change.",
+        "User can edit/delete logs and the date-wise list updates accordingly."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/vehicleWork/calculations.ts",
+          "operation": "create",
+          "description": "Implement pure helpers to compute working hours and payment from start/end time and hourly rate, including invalid range handling (no NaN/undefined)."
+        },
+        {
+          "path": "frontend/src/features/vehicleWork/validation.ts",
+          "operation": "create",
+          "description": "Add Vehicle Work Log validation: required fields, numeric validation for hourly rate, and time-range validation with clear English messages."
+        },
+        {
+          "path": "frontend/src/features/vehicleWork/VehicleWorkForm.tsx",
+          "operation": "create",
+          "description": "Create a JCB/HYDRO work log create/edit form with live computed hours/payment display. Use shadcn-ui inputs/select and Card styling for consistent UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/vehicleWork/VehicleWorkList.tsx",
+          "operation": "create",
+          "description": "Create a date-filtered work log list view with aggregated totals (hours/payment) and edit/delete actions. Use shadcn-ui Table/Card and AlertDialog for delete confirmation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/VehicleWorkPage.tsx",
+          "operation": "create",
+          "description": "Create the Vehicle (JCB/HYDRO) module page with shared date selector, list, and add/edit flow backed by local storage."
+        },
+        {
+          "path": "frontend/src/router.tsx",
+          "operation": "modify",
+          "description": "Register the Vehicle Work Logs route and ensure navigation works to this module."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add Vehicle module navigation entry and route outlet wiring in the main layout."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Implement Daily Accounting CRUD with date-wise totals (income, expenses, balance in hand).",
+      "acceptanceCriteria": [
+        "User can add accounting records for Paid and Received with amount, person name, date, and notes.",
+        "For any selected date, the UI shows total expenses, total income, and balance in hand computed from locally stored records.",
+        "User can edit/delete accounting records and totals recompute immediately."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/accounting/calculations.ts",
+          "operation": "create",
+          "description": "Implement pure helpers to compute totals (income, expenses, balance) from locally stored transactions for a selected date."
+        },
+        {
+          "path": "frontend/src/features/accounting/validation.ts",
+          "operation": "create",
+          "description": "Add Accounting form validation: required fields and numeric validation for amount with clear English messages."
+        },
+        {
+          "path": "frontend/src/features/accounting/AccountingForm.tsx",
+          "operation": "create",
+          "description": "Create an Accounting create/edit form for Paid/Expense and Received/Income. Use shadcn-ui inputs/select and buttons for consistent theme. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/accounting/AccountingList.tsx",
+          "operation": "create",
+          "description": "Create a date-filtered Accounting list with totals summary and edit/delete actions. Use shadcn-ui Table/Card and AlertDialog for delete confirmation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/AccountingPage.tsx",
+          "operation": "create",
+          "description": "Create the Accounting module page that shows the selected date’s transactions and computed totals using local data."
+        },
+        {
+          "path": "frontend/src/router.tsx",
+          "operation": "modify",
+          "description": "Register the Accounting route so it is reachable from navigation."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add Accounting navigation entry and route wiring in the main layout."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Create a dashboard summarizing today with animated KPI cards linking into date-filtered module views.",
+      "acceptanceCriteria": [
+        "Dashboard displays the 5 requested KPIs for the current date using locally stored data.",
+        "Cards animate on load/interaction (e.g., subtle motion/hover/transition) without harming usability.",
+        "Clicking a card navigates to the corresponding module with the date pre-selected to today."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/dashboard/kpis.ts",
+          "operation": "create",
+          "description": "Implement local-only KPI selectors for today: income, expenses, balance, total vehicle hours (JCB+HYDRO), and Water Tank entry count."
+        },
+        {
+          "path": "frontend/src/features/dashboard/KpiCard.tsx",
+          "operation": "create",
+          "description": "Create an animated KPI card component with subtle hover/press transitions. Use shadcn-ui Card for consistent styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Create the Dashboard page showing five KPI cards for today and linking to the relevant module pages with today’s date pre-selected."
+        },
+        {
+          "path": "frontend/src/router.tsx",
+          "operation": "modify",
+          "description": "Register Dashboard as a primary route and set it as the default landing view."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Dashboard into the main navigation and ensure KPI card links navigate to the correct date-filtered module views."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add date-wise report views for Water Tank, Vehicle Work Logs, and Accounting with a shared date selector and computed totals.",
+      "acceptanceCriteria": [
+        "Each module includes a date selector that filters records to the selected date.",
+        "Vehicle report view shows aggregated hours and payment totals for the selected date.",
+        "Accounting report view shows totals (income/expenses/balance) for the selected date."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/DateSelector.tsx",
+          "operation": "create",
+          "description": "Create a shared date selector component used across modules and reports. Use shadcn-ui input/button patterns for consistent UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/reports/ReportsShell.tsx",
+          "operation": "create",
+          "description": "Create a Reports/Exports view container with a shared date selector and module switcher. Use shadcn-ui Tabs for quick switching between report types. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/reports/WaterTankReport.tsx",
+          "operation": "create",
+          "description": "Implement the Water Tank date-wise report rendering (tabular rows for selected date) and expose the same filtered dataset used for exports."
+        },
+        {
+          "path": "frontend/src/features/reports/VehicleWorkReport.tsx",
+          "operation": "create",
+          "description": "Implement the Vehicle Work Logs date-wise report rendering with aggregated totals (hours/payment) for selected date."
+        },
+        {
+          "path": "frontend/src/features/reports/AccountingReport.tsx",
+          "operation": "create",
+          "description": "Implement the Accounting date-wise report rendering with computed totals (income/expenses/balance) for selected date."
+        },
+        {
+          "path": "frontend/src/pages/ReportsPage.tsx",
+          "operation": "create",
+          "description": "Create the Reports/Exports page that hosts the report shell and the three report views, using the shared date selector."
+        },
+        {
+          "path": "frontend/src/router.tsx",
+          "operation": "modify",
+          "description": "Register the Reports/Exports route and ensure it is reachable from navigation."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add Reports/Exports to the main navigation and ensure the report page is wired into the layout."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Implement PDF and Excel export for the currently selected date’s reports, including totals where applicable.",
+      "acceptanceCriteria": [
+        "From each report view, user can export to PDF and download a file.",
+        "From each report view, user can export to Excel (.xlsx) and download a file.",
+        "Exports include a clear header with module name and report date, tabular rows, and totals where applicable."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/export/exportTypes.ts",
+          "operation": "create",
+          "description": "Define shared export data shapes (headers, rows, totals blocks, report metadata) used by both PDF and Excel exporters."
+        },
+        {
+          "path": "frontend/src/lib/export/pdf.ts",
+          "operation": "create",
+          "description": "Implement a PDF export helper that generates a downloadable report file with module header, date, table, and totals."
+        },
+        {
+          "path": "frontend/src/lib/export/excel.ts",
+          "operation": "create",
+          "description": "Implement an Excel (.xlsx) export helper that generates a downloadable report file with module header, date, table, and totals."
+        },
+        {
+          "path": "frontend/src/features/reports/ExportActions.tsx",
+          "operation": "create",
+          "description": "Create Export to PDF / Export to Excel actions used on each report view. Use shadcn-ui Button/DropdownMenu for compact mobile-friendly actions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/reports/WaterTankReport.tsx",
+          "operation": "modify",
+          "description": "Wire PDF/Excel export actions into the Water Tank report view using the currently selected date’s filtered records."
+        },
+        {
+          "path": "frontend/src/features/reports/VehicleWorkReport.tsx",
+          "operation": "modify",
+          "description": "Wire PDF/Excel export actions into the Vehicle Work report view including aggregated totals."
+        },
+        {
+          "path": "frontend/src/features/reports/AccountingReport.tsx",
+          "operation": "modify",
+          "description": "Wire PDF/Excel export actions into the Accounting report view including totals (income/expenses/balance)."
+        },
+        {
+          "path": "frontend/package.json",
+          "operation": "create",
+          "description": "Ensure required frontend dependencies exist for offline DB and exports (IndexedDB helper, PDF generation, Excel generation)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Build a modern, clean, subtly animated Material-inspired UI with a consistent theme across the app and a non-blue/purple primary palette.",
+      "acceptanceCriteria": [
+        "UI uses a single consistent theme across the app (buttons, inputs, cards, typography).",
+        "Micro-interactions/animations are present but subtle (no distracting motion) and consistent.",
+        "Primary palette is not blue/purple."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add global theme variables and base styles (typography, spacing rhythm, surfaces) for a Material-inspired look; ensure primary palette is not blue/purple, and align with Tailwind + shadcn-ui tokens."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust theme token defaults if needed to align with the chosen non-blue/purple primary palette and consistent surface/foreground colors."
+        },
+        {
+          "path": "frontend/src/components/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a consistent layout wrapper (top bar + content + mobile-friendly nav) and apply shared spacing and subtle transitions. Use shadcn-ui components like Card/Button/Separator where appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap routed pages with the AppLayout to ensure consistent theming and micro-interactions across all screens."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add light/dark mode toggle with local persistence.",
+      "acceptanceCriteria": [
+        "User can toggle between light and dark themes.",
+        "The selected theme persists across reloads via local storage.",
+        "Both themes maintain readable contrast and consistent component styling."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/theme/theme.ts",
+          "operation": "create",
+          "description": "Define theme mode types, local storage key, and helper functions to read/write the persisted mode."
+        },
+        {
+          "path": "frontend/src/theme/ThemeProvider.tsx",
+          "operation": "create",
+          "description": "Implement a theme provider that toggles a root 'dark' class and persists the selected mode locally."
+        },
+        {
+          "path": "frontend/src/components/ThemeToggle.tsx",
+          "operation": "create",
+          "description": "Create a user-facing light/dark toggle control. Use shadcn-ui Switch/Button components for consistent styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Place the ThemeToggle in the top bar (or overflow menu) and ensure it is accessible on mobile."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap the app with ThemeProvider so theme mode applies across all routes."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add/adjust light and dark CSS variable sets to ensure readable contrast and consistent component styling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Add robust validation and UX safeguards: required fields, numeric/time validation, and delete confirmations with safe calculated outputs.",
+      "acceptanceCriteria": [
+        "Forms prevent saving invalid records and show clear English validation messages.",
+        "Deleting any record requires a confirmation step.",
+        "Calculated fields (hours/payment/totals) never show NaN/undefined and degrade gracefully when inputs are incomplete."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/format.ts",
+          "operation": "create",
+          "description": "Add safe formatting helpers for currency/numbers/time and fallbacks to prevent NaN/undefined rendering in calculated fields and totals."
+        },
+        {
+          "path": "frontend/src/components/ConfirmDeleteDialog.tsx",
+          "operation": "create",
+          "description": "Create a reusable delete confirmation dialog wrapper. Use shadcn-ui AlertDialog for consistent destructive confirmation UX. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/waterTank/WaterTankList.tsx",
+          "operation": "modify",
+          "description": "Use the shared ConfirmDeleteDialog for Water Tank deletes and ensure invalid states are not savable."
+        },
+        {
+          "path": "frontend/src/features/vehicleWork/VehicleWorkForm.tsx",
+          "operation": "modify",
+          "description": "Ensure time validation (end after start) is enforced, computed hours/payment are always safe to render, and error messages are clear English."
+        },
+        {
+          "path": "frontend/src/features/vehicleWork/VehicleWorkList.tsx",
+          "operation": "modify",
+          "description": "Use the shared ConfirmDeleteDialog for work log deletes and ensure list totals never render NaN/undefined."
+        },
+        {
+          "path": "frontend/src/features/accounting/AccountingForm.tsx",
+          "operation": "modify",
+          "description": "Ensure numeric validation for amount and safe formatting for totals and row values."
+        },
+        {
+          "path": "frontend/src/features/accounting/AccountingList.tsx",
+          "operation": "modify",
+          "description": "Use the shared ConfirmDeleteDialog for accounting deletes and ensure totals recompute safely with incomplete inputs handled gracefully."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Provide mobile-optimized in-app navigation to Dashboard, Water Tank, Vehicle, Accounting, and Reports/Exports with current section indication.",
+      "acceptanceCriteria": [
+        "User can reach all major modules from a consistent navigation element (e.g., bottom nav or side menu).",
+        "Navigation works on small screens without overlapping content.",
+        "Current section is visually indicated."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/MobileNav.tsx",
+          "operation": "create",
+          "description": "Create a mobile-friendly persistent navigation (bottom nav) with links to Dashboard, Water Tank, Vehicle, Accounting, and Reports/Exports. Use shadcn-ui Button or NavigationMenu patterns to keep styling consistent. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Include the MobileNav in the layout and ensure content is padded so nav never overlaps content on small screens; visually indicate the active section."
+        },
+        {
+          "path": "frontend/src/router.tsx",
+          "operation": "modify",
+          "description": "Ensure all primary routes exist and are connected to navigation targets (Dashboard, Water Tank, Vehicle, Accounting, Reports/Exports)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire router + layout together so navigation is consistent across all pages and deep-links land in the correct module."
+        }
+      ]
+    }
+  ]
+}
